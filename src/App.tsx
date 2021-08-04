@@ -50,7 +50,7 @@ function App() {
                   {/* Default Home Render */}
                   <Route path="/">
                   <div className="w-full flex justify-center text-2xl mb-12">
-                    <h2>Find a Game to play for FREE!</h2>
+                    <h2>Find a FREE Game to play!</h2>
                   </div>
                     {
                       (genres.map(genre =>

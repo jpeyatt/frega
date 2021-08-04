@@ -1,37 +1,35 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Game } from '../../models/game.model';
 
+const RAPIDAPI_KEY = process.env.REACT_APP_RAPIDAPI_KEY;
+const RAPIDAPI_HOST = process.env.REACT_APP_RAPIDAPI_HOST;
 
 const getGames = async (): Promise<Game[]> => {
-  const options: AxiosRequestConfig = {
-    method: 'GET',
-    url: 'https://free-to-play-games-database.p.rapidapi.com/api/games',
-    headers: {
-      'x-rapidapi-key': 'c68910f192msh3238d4e085be35fp146c36jsn5491590686e2',
-      'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com'
-    }
-  };
+  const options: AxiosRequestConfig = _createReqConfig('games');
   const resp: AxiosResponse = await axios.request(options);
   const games: Game[] = resp.data;
   return games;
 };
 
 const getGameDetails = async (id: string): Promise<Game> => {
-
-  const options: AxiosRequestConfig = {
-    method: 'GET',
-    url: 'https://free-to-play-games-database.p.rapidapi.com/api/game',
-    params: { id },
-    headers: {
-      'x-rapidapi-key': 'c68910f192msh3238d4e085be35fp146c36jsn5491590686e2',
-      'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com'
-    }
-  };
-
+  const options: AxiosRequestConfig = _createReqConfig('game', { id });
   const resp: AxiosResponse = await axios.request(options);
   const game: Game = resp.data;
   return game;
 };
+
+const _createReqConfig = (uri: string, params?: {}): AxiosRequestConfig => {
+  const options: AxiosRequestConfig = {
+    method: 'GET',
+    url: `https://free-to-play-games-database.p.rapidapi.com/api/${uri}`,
+    params,
+    headers: {
+      'x-rapidapi-key': RAPIDAPI_KEY,
+      'x-rapidapi-host': RAPIDAPI_HOST
+    }
+  };
+  return options;
+}
 
 export { getGames, getGameDetails };
 
